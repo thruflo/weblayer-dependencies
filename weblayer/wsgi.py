@@ -101,7 +101,7 @@ class WSGIApplication(object):
             try: # handler *should* catch all exceptions
                 response = handler(environ['REQUEST_METHOD'], *args, **kwargs)
             except Exception: # unless deliberately bubbling them up
-                if environ.get('paste.throw_errors', False): 
+                if self._settings['dev'] or environ.get('paste.throw_errors', False):
                     raise
                 else:
                     response.status = 500
