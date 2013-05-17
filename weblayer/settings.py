@@ -352,11 +352,14 @@ def _attach_callback(
     
     # get the module we're being called in
     calling_mod = None
-    for item in inspect.stack():
-        if item[3] == '<module>':
-            calling_mod = inspect.getmodule(item[0])
-            break
-        
+    try:
+        for item in inspect.stack():
+            if item[3] == '<module>':
+                calling_mod = inspect.getmodule(item[0])
+                break
+    except KeyError:
+        pass
+    
     # ignore when `None` (e.g.: if called from a doctest)
     if calling_mod is None:
         return
